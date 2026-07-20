@@ -2916,6 +2916,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Print verbose progress information",
     )
+    parser.add_argument(
+        "--api-format",
+        choices=["bash", "powershell"],
+        default="bash",
+        help="Output format for API calls: bash (default) or powershell",
+    )
 
     return parser
 
