@@ -10,6 +10,8 @@ producing:
 | `skudonet_apply.sh` | Bash script of `curl` calls against the Skudonet ZAPI v4.0 REST API |
 | `skudonet_apply.ps1` | PowerShell script of `Invoke-WebRequest` calls against the Skudonet ZAPI v4.0 REST API |
 
+**Note:** The `skudonet_apply.ps1` script is optional and can be used on Windows systems where PowerShell is available. If not specified otherwise, the tool generates a bash script (`skudonet_apply.sh`) for Unix-like systems.
+
 **Intentionally skipped** (assumed handled separately by the operator):
 - VLAN configuration (`add vlan`, `bind vlan`)
 - Floating IP / SNIP addresses (`add ns ip -type SNIP`)
@@ -109,25 +111,24 @@ pwsh skudonet_apply.ps1
 
 ## Architecture
 
-The tool is structured in eight sections / classes:
+The tool is structured in several sections / classes:
 
-```
-NSConfigParser       Parse ns.conf → list of (verb, [args]) tuples
-        │
-        ▼
-NetScalerModel       Build typed in-memory model (servers, SGs, vservers,
-        │            monitors, SSL config, policies, …)
-        ▼
-SkudonetMapper       Convert NS model → Skudonet intermediate dicts
-        │            (farms, services, backends, farmguardians, …)
-       / \
-      /   \
-     ▼     ▼
-Config   APIScript
-Writer   Writer
-  │        │
-  ▼        ▼
-.json    .sh
+```mermaid
+graph TD
+    NSConfigParser["<u>NSConfigParser</u><br/>Parse ns.conf → list of (verb, [args]) tuples"]
+    NetScalerModel["<u>NetScalerMode</u>l<br/>Build typed in-memory model<br/>(servers, SGs, vservers,<br/>monitors, SSL config, policies, …)"]
+    SkudonetMapper["<u>SkudonetMapper</u><br/>Convert NS model → Skudonet intermediate dicts<br/>(farms, services, backends, farmguardians, …)"]
+    SkudonetConfigWriter["<u>SkudonetConfigWriter</u><br/>Generate skudonet_config.json"]
+    SkudonetAPIScriptWriter["<u>SkudonetAPIScriptWriter</u><br/>Generate API script<br/>skudonet_apply.sh or skudonet_apply.ps1"]
+    
+    NSConfigParser --> NetScalerModel
+    NetScalerModel --> SkudonetMapper
+    SkudonetMapper --> SkudonetConfigWriter
+    SkudonetMapper --> SkudonetAPIScriptWriter
+    
+    SkudonetConfigWriter --> JSON["skudonet_config.json"]
+    SkudonetAPIScriptWriter --> SH["skudonet_apply.sh"]
+    SkudonetAPIScriptWriter --(optional)--> PS1["skudonet_apply.ps1"]
 ```
 
 ---
