@@ -56,6 +56,8 @@ optional arguments:
                        Directory for output files (default: current directory)
   --dry-run, -n        Parse and report without writing any output files
   --verbose, -v        Print verbose progress information
+  --api-format {bash,powershell}
+                        Output format for API calls: bash (default) or powershell
 ```
 
 ### Examples
@@ -72,6 +74,9 @@ python ns_to_skudonet.py ns.conf --dry-run --verbose
 
 # Verbose mode – shows counts at each stage
 python ns_to_skudonet.py ns.conf -v -o ./output
+
+# Generate PowerShell script instead of bash
+python ns_to_skudonet.py ns.conf --api-format powershell
 ```
 
 ### Applying the shell script
