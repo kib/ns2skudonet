@@ -2334,7 +2334,7 @@ class SkudonetAPIScriptWriter:
         self._w("# 1. Export BASE_URL:  export BASE_URL=\"https://your-skudonet-host\"")
         self._w("# 2. Export API_KEY:   export API_KEY=\"your-api-key\"")
         self._w("# 3. Upload all SSL certificate PEM files to Skudonet before running.")
-        self._w("# 4. Review all '# NOTE:' and '# MANUAL:' comments below.")")
+        self._w("# 4. Review all '# NOTE:' and '# MANUAL:' comments below.\")")
         self._w("#")
         self._w("# USAGE")
         self._w("# -----")
