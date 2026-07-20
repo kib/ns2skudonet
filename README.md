@@ -8,6 +8,7 @@ producing:
 |---|---|
 | `skudonet_config.json` | Full structured JSON — farms, services, backends, certificates, health checks |
 | `skudonet_apply.sh` | Bash script of `curl` calls against the Skudonet ZAPI v4.0 REST API |
+| `skudonet_apply.ps1` | PowerShell script of `Invoke-WebRequest` calls against the Skudonet ZAPI v4.0 REST API |
 
 **Intentionally skipped** (assumed handled separately by the operator):
 - VLAN configuration (`add vlan`, `bind vlan`)
@@ -91,6 +92,17 @@ bash skudonet_apply.sh
 
 # Stop on the first error (default is to continue and report)
 ABORT_ON_ERROR=1 bash skudonet_apply.sh
+```
+
+### Applying the PowerShell script
+
+```powershell
+# Set your Skudonet host and API key first
+$env:BASE_URL="https://your-skudonet-appliance"
+$env:API_KEY="your-zapi-key-here"
+
+# Run the generated script
+pwsh skudonet_apply.ps1
 ```
 
 ---
